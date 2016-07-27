@@ -1,0 +1,12 @@
+以上两题换汤不换药。 
+T(p)和T(q)是same tree的条件：
+
+(1) p和q等价（同时为NULL，或同时不为NULL且val相同）
+
+(2) T(p->left)和T(q->left)为same tree，且T(p->right)和T(q->right)为same tree。
+
+T(r)是symmetric的条件：实际就是判断T(r->left)和T(r-right)是否互为镜像的问题。假设p和q分别指向同一个tree内部两个镜像对称的节点，
+
+(1) p和q等价（同时为NULL，或同时不为NULL且val相同）
+
+(2) T(p->left)和T(q->right)必须互为镜像，且T(p->right)和T(q->left)必须互为镜像。
