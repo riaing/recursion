@@ -23,22 +23,22 @@ All root-to-leaf paths are:
  */
 public class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-     List<String> allPath = new ArrayList<String>(); 
+     List<String> allPath = new ArrayList<String>();  //(1)
      if(root == null ){
          return allPath;
      }
-     if (root.left == null && root.right == null){ //考虑第二个基线条件，leave的左右子node会不会影响。 
-            allPath.add(root.val+ ""); // can't write in one line?
+     if (root.left == null && root.right == null){ // (2) 考虑第二个基线条件，leave的左右子node会不会影响。 
+            allPath.add(root.val+ ""); 
             return allPath;
      }
      
-     allPath.addAll(binaryTreePaths(root.left));
+     allPath.addAll(binaryTreePaths(root.left //(3) add substring 
      allPath.addAll(binaryTreePaths(root.right));
      //for (String i : allPath){  //since string is immutable, change i here won't change element in allPath 见下补充。
                                     
        //  i = root.val+"->" + i; 
      //}
-     for(int i =0; i<allPath.size(); i ++ ){
+     for(int i =0; i<allPath.size(); i ++ ){   //(4) 完善list
          allPath.set (i, root.val + "->" + allPath.get(i)); //覆盖之前的旧string。 
      }
      return allPath;
