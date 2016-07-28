@@ -24,7 +24,8 @@ return
  *     TreeNode right;
  *     TreeNode(int x) { val = x; }
  * }
- **/
+ */
+ 
 public class Solution {
    
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
@@ -41,10 +42,10 @@ public class Solution {
             return paths;
         }
         
-        paths.addAll(pathSum(root.left, sum - root.val));  //（3）递归
+        paths.addAll(pathSum(root.left, sum - root.val));  //（3）递归，add substring 
         paths.addAll(pathSum(root.right, sum - root.val));
         
-        for (int i = 0 ; i<paths.size(); i ++){  （4）将root加到递归完的list中，完善list
+        for (int i = 0 ; i<paths.size(); i ++){  //（4）将root加到递归完的list中，完善list
             paths.get(i).add(0, root.val);
         }
         
