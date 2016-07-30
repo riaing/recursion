@@ -8,6 +8,7 @@ In a complete binary tree every level, except possibly the last, is completely f
 即最后一层也是满的，则以该节点为根的树其节点一共有2^h-1个。
 如果不等于，则是左子树的节点数，加上右子树的节点数，加上自身这一个。（这里递归）
 
+//待提高的解法： 
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -22,16 +23,18 @@ public class Solution {
         if(root == null){
             return 0 ;
         }
-        int l = lheight(root) ; 
+        int l = lheight(root) ;  //如果左边和右边高度相等，利用性质
         int r = rheight(root) ; 
         if(l == r){ 
             return   ( 1<<l) -1;
-             
         }
+        
+     //   if(lheight(root) == rheight(root)) 为什么会超时？ 
         return 1 + countNodes(root.left) + countNodes(root.right); 
     }
     
-    private int rheight(TreeNode root){ //include the root node 
+    // 算左右两边的高度
+    private int rheight(TreeNode root){ //include the root node  
         int count = 0;
         while(root != null){
             count ++;
