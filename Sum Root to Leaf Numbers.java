@@ -25,6 +25,8 @@ Return the sum = 12 + 13 = 25.
  *     TreeNode(int x) { val = x; }
  * }
  */
+ 
+//按照找到所有path的解法： 
 public class Solution {
     public int sumNumbers(TreeNode root) {
         if(root == null){
@@ -32,13 +34,13 @@ public class Solution {
         }
        List<String> allPath = findPath(root); 
        int sum = 0 ;
-       for(int i = 0; i<allPath.size(); i ++){
-           sum = sum + Integer.parseInt(allPath.get(i));
+       for(int i = 0; i<allPath.size(); i ++){ 
+           sum = sum + Integer.parseInt(allPath.get(i)); //把所有的path转化成int， 进行求和
        }
        return sum; 
     }
     
-    private List<String> findPath(TreeNode root){
+    private List<String> findPath(TreeNode root){ //先找出所有的path， 存到一个string array 中
          List<String> path = new ArrayList<String>();
         
         if(root == null){
@@ -56,6 +58,40 @@ public class Solution {
             path.set(i, root.val+ path.get(i)); 
         }
         return path; 
+        
+    }
+}
+ 这个方法一些node会重复走几遍，eg 1-2 ， 1-3 这两条path中1 走了两遍。 
+ 较好的方法是： 递归到该点的时候就把这点的值与前面的值乘以10，然后相加
+    需要如何保存前面的值？以参数传递的方式保存，以供下一层使用。
+    
+// 优化解法：参数传递
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int sumNumbers(TreeNode root) {
+        return sumNumbers(root, 0);
+    }
+    private int sumNumbers(TreeNode root, int tmp){
+        int sum = 0; 
+        if(root == null){
+            return sum; 
+        }
+        if(root.left == null && root.right == null){ //path题大多都要考虑leave node
+            sum = tmp*10 + root.val;
+            return sum;
+        }
+    
+        sum = sumNumbers(root.left , tmp*10+root.val) + sumNumbers(root.right ,tmp*10+root.val);
+        return sum ; 
         
     }
 }
