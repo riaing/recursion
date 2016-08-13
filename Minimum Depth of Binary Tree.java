@@ -1,4 +1,5 @@
 Given a binary tree, find its minimum depth.
+还可用BFS解。 
 
 The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
 
