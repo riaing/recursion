@@ -32,3 +32,23 @@ public class Solution {
         return 1+ Math.min(minDepth(root.left), minDepth(root.right));
     }
 }
+
+相似的题像是 find the max value of a binary tree: 
+
+public int maxValueInBinaryTree(TreeNode root) {
+	if(root == null){
+		Return 0 ;
+	}
+	if(root.left == null && root.right ==null) { 如果为根节点
+		Return root.val;
+	}
+	if(root.left != null && root.right == null){ 如果只有左子树
+		Return Math.max(root.val , maxValueInBinaryTree(root.left);
+	}
+	if(root.left == null && root.right != null){ only has right tree
+		Return Math.max(root.val , maxValueInBinaryTree(root.right );
+	}
+	//如果左右子树都有
+	Int cur = Math.max(maxValueInBinaryTree(root.left),  maxValueInBinaryTree(root.right));
+	Return Math.max(root.val , cur);
+}
