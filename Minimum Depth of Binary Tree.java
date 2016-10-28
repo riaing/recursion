@@ -52,3 +52,39 @@ public int maxValueInBinaryTree(TreeNode root) {
 	Int cur = Math.max(maxValueInBinaryTree(root.left),  maxValueInBinaryTree(root.right));
 	Return Math.max(root.val , cur);
 }
+				
+非递归解法
+ public int minDepth(TreeNode root) {
+ 2         if(root == null)
+ 3             return 0;
+ 4         
+ 5         int depth = 1;//The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+ 6         LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+ 7         queue.add(root);
+ 8         int curnum = 1;
+ 9         int nextnum = 0;
+10         while(!queue.isEmpty()){
+11             TreeNode cur = queue.poll();
+12             curnum--;
+13             
+14             if(cur.left == null && cur.right == null)
+15                 return depth;
+16             
+17             if(cur.left != null){
+18                queue.add(cur.left);
+19                nextnum++;
+20             }
+21             
+22             if(cur.right != null){
+23                 queue.add(cur.right);
+24                 nextnum++;
+25             }
+26             
+27             if(curnum == 0){
+28                 curnum = nextnum;
+29                 nextnum = 0;
+30                 depth++;
+31             }
+32         }
+33         return depth;
+34     }
