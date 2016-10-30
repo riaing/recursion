@@ -77,3 +77,66 @@ public class Solution {
         
     }
 }
+-------using array index 
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTree(preorder, inorder, 0, preorder.length-1, 0, inorder.length -1);
+    }
+    
+    public TreeNode buildTree(int[] preorder, int[] inorder, int pStart, int pEnd, int iStart, int iEnd) {
+        if(pStart > pEnd || iStart > iEnd){
+            return null; 
+        }
+        // base 1 : if  == null; 
+        if(preorder== null || inorder == null ){
+            return null; 
+        }
+        //base2 : if empty arry 
+        if( preorder.length == 0 || inorder.length == 0){ 
+            return null; 
+        }
+        
+        // base3: if leave node 
+        if(preorder.length ==1 && inorder.length== 1){
+            TreeNode head = new TreeNode(preorder[pStart]);
+            return head; 
+        }
+        
+        
+        TreeNode head = new TreeNode(preorder[pStart]);   
+        
+        int index=0;
+        for (int i=iStart; i<= iEnd; i ++){// <=, since i 不是从零开始。
+            if (inorder[i] == head.val){
+                index = i ; 
+            }
+        }
+
+        int LeftPreOrderStart = pStart+1 ;//每次去掉head，往后移一格
+        int LeftPreOrderEnd = pStart + index-iStart; //长度为所有左子树的长度 //****
+        int RightPreOrderStart = pStart + index- iStart + 1;// pStart + index- iStart + 1;  
+        int RightPreOrderEnd = pEnd; 
+        
+        int LeftInOrderStart = iStart;
+        int LeftInOrderEnd = index-1;
+        int RightInOrderStart = index+1 ;
+        int RightInOrderEnd = iEnd;
+        
+       // head.left = buildTree(preorder, inorder, LeftPreOrderStart, LeftPreOrderEnd, LeftInOrderStart, LeftInOrderEnd);
+       //head.right = buildTree(preorder, inorder, RightPreOrderStart, RightInOrderEnd, RightInOrderStart, RightInOrderEnd);
+        head.left = buildTree(preorder,inorder, pStart + 1,pStart + index - iStart , iStart, index - 1);
+       head.right = buildTree(preorder, inorder, pStart + index- iStart + 1, pEnd, index + 1, iEnd); 
+        return head; 
+        
+    }
+}
