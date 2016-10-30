@@ -3,6 +3,8 @@ Given a binary tree, determine if it is height-balanced.
 For this problem, a height-balanced binary tree is defined as a binary tree in which the depth 
 of the two subtrees of every node never differ by more than 1.
 
+ To check if a tree is height-balanced, get the height of left and right subtrees. Return true if
+ difference between heights is not more than 1 and left and right subtrees are balanced, otherwise return false.
  
 /**
  * Definition for a binary tree node.
