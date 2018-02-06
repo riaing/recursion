@@ -61,6 +61,7 @@ public class Solution {
         return isBalanced(root.left) && isBalanced(root.right); */
         
         //way 2 
+        诡异的是这里顺序不能错，如果有个很大的imbalance tree，就会stackoverflow
         return Math.abs(height(root.right)-height(root.left))<=1 && isBalanced(root.left) && isBalanced(root.right);
     }
     
