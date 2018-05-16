@@ -25,7 +25,7 @@ return
  *     TreeNode(int x) { val = x; }
  * }
  */
- 
+ ---- recursion V1: could deprecated ------- 
 public class Solution {
    
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
@@ -54,6 +54,43 @@ public class Solution {
         
     }
 }
+
+------ recursion V2: ---------
+  /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        List<Integer> result = new ArrayList<Integer>(); 
+        helper(root, sum, results, result);
+        return results;
+        
+    }
+    private void helper(TreeNode root, int sum, List<List<Integer>> results, List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        else if (root.val == sum && root.left == null && root.right == null) {
+            result.add(root.val);
+            results.add(new ArrayList<Integer>(result));
+            result.remove(result.size() -1); // must remove here. 
+            return;
+        }
+        result.add(root.val);
+        helper(root.left, sum - root.val, results, result);
+        helper(root.right, sum - root.val, results, result);
+        result.remove(result.size() -1);
+        
+    }
+}
+
 
 -------------------DFS------
 /**
