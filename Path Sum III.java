@@ -25,6 +25,10 @@ Return 3. The paths that sum to 8 are:
 3. -3 -> 11
 
 
+      Recursion and DFS: 
+Time complexity: O(n^2)
+
+Space complexity: O(n)
 ---- SOL 1: Pass the return value: using DFS ------
 
 /**
