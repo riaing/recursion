@@ -25,7 +25,7 @@ Return 3. The paths that sum to 8 are:
 3. -3 -> 11
 
 
----- Pass the return value: using DFS ------
+---- SOL 1: Pass the return value: using DFS ------
 
 /**
  * Definition for a binary tree node.
@@ -70,7 +70,7 @@ class Solution {
     } 
 }
 
--------- Pass the return value: using recursion ------
+-------- SOL 2: Pass the return value: using recursion ------
       /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -98,6 +98,35 @@ class Solution {
         numPath = helper(node.left, sum - node.val, numPath);
         numPath = helper(node.right, sum - node.val, numPath);
         return node.val == sum ? numPath + 1 : numPath; 
+    }
+}
+
+-------------- SOL 3: don't pass the return value, using DFS: --------------
+      /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        return helper(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+      // Given the current node, find all path of it. 
+    private int helper(TreeNode node, int sum) {
+        int numPathOfCurrentNode = 0; 
+        if (node == null) {
+            return numPathOfCurrentNode;
+        }
+           // Diff from previous 2 SOL: Now just add all path from the current node. 
+        // Even though node.val == sum, still has to continue for child node. 
+        return (node.val == sum ? numPathOfCurrentNode + 1 : numPathOfCurrentNode) + helper(node.left, sum - node.val) + helper(node.right, sum - node.val);
     }
 }
       
