@@ -101,7 +101,7 @@ class Solution {
     }
 }
 
--------------- SOL 3: don't pass the return value, using DFS: --------------
+-------------- SOL 3: don't pass the return value, using recursion: --------------
       /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -129,4 +129,47 @@ class Solution {
         return (node.val == sum ? numPathOfCurrentNode + 1 : numPathOfCurrentNode) + helper(node.left, sum - node.val) + helper(node.right, sum - node.val);
     }
 }
+
+-------------- Don't pass the return value: Using DFS ------------------
+      /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        int numPath = 0; 
+        if (root == null) {
+            return numPath;
+        }
       
+        Queue<TreeNode> nodes = new LinkedList<TreeNode>();
+        nodes.offer(root);
+        while(nodes.size() != 0) {
+            TreeNode node = nodes.poll();
+            if (node.left != null) {
+                nodes.offer(node.left);
+            }
+            if(node.right != null) {
+                nodes.offer(node.right);
+            }
+            // Add all path from current node. 
+            numPath = helper(node, sum) + numPath;
+        }
+        return numPath;
+        
+    }
+    private int helper(TreeNode node, int sum) {
+        int numPathOfCurrentNode = 0; 
+        if (node == null) {
+            return numPathOfCurrentNode;
+        }
+    
+        // Even though node.val == sum, still has to continue for child node. 
+        return (node.val == sum ? numPathOfCurrentNode + 1 : numPathOfCurrentNode) + helper(node.left, sum - node.val) + helper(node.right, sum - node.val);
+    }
+}
