@@ -43,8 +43,7 @@ class Solution {
         if (root == null) {
             return numPath;
         }
-      
-        
+// Traverse every node and add the total number of paths from this node.       
         Queue<TreeNode> nodes = new LinkedList<TreeNode>();
         nodes.offer(root);
         while(nodes.size() != 0) {
@@ -66,8 +65,39 @@ class Solution {
         }
         numPath = helper(node.left, sum - node.val, numPath);
         numPath = helper(node.right, sum - node.val, numPath);
+          // Must add the current path if it exist. 
+        return node.val == sum ? numPath + 1 : numPath; 
+    } 
+}
+
+-------- Pass the return value: using recursion ------
+      /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        // initialize numPath everytime starting from a node. 
+        int numPath = 0;
+        if (root == null) {
+            return numPath;
+        }  
+       
+        // All path from the root + all path from left and right nodes. 
+        return helper(root, sum, numPath) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+    private int helper(TreeNode node, int sum, int numPath) {
+        if (node == null) {
+            return numPath;
+        }
+        numPath = helper(node.left, sum - node.val, numPath);
+        numPath = helper(node.right, sum - node.val, numPath);
         return node.val == sum ? numPath + 1 : numPath; 
     }
-    
-    
 }
+      
