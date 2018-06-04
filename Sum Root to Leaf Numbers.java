@@ -95,3 +95,7 @@ public class Solution {
         
     }
 }
+
+------ update: 更加clear的写法。
+把sum（primitive type）作为整个
+class
