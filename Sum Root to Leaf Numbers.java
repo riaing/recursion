@@ -96,6 +96,35 @@ public class Solution {
     }
 }
 
------- update: 更加clear的写法。
-把sum（primitive type）作为整个
-class
+------ update: 更加clear的写法。把sum（primitive type）作为整个class的参数。helper method更新这个参数（类似path sum的思路） --- 
+    /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int sum;
+    
+    public int sumNumbers(TreeNode root) {
+        helper(root, 0);
+        return sum;
+    }
+    
+    private void helper(TreeNode root, int currentSum) {
+        if (root == null) {
+            return;
+        }
+        currentSum = currentSum * 10 + root.val; 
+        if (root.left == null && root.right == null) {
+            sum = sum + currentSum;
+            return;
+        }
+
+        helper(root.left, currentSum);
+        helper(root.right, currentSum); 
+    }
+}
