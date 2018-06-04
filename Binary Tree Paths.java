@@ -57,3 +57,51 @@ List<String> s = new ArrayList<String>();
 			System.out.println(i); // 1->abc ， 1->def
 		} 
 		System.out.println(s.get(0)); //abc, for loop只是用list里的string重新创了个string，但list里的string并没有改变
+
+--------------------------------- update 解法， 感觉上一种最后加first element的解法太偏了 ------------------------
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>(); 
+        List<Integer> result = new ArrayList<Integer>(); 
+        
+        allPath(root, results, result);
+        
+        List<String> returnedResult = new ArrayList<String>();
+        for (int i = 0; i < results.size(); i ++) {
+            StringBuilder builder = new StringBuilder();
+            for (int j = 0; j < results.get(i).size() -1; j ++) {
+                builder.append(results.get(i).get(j));
+                builder.append("->");
+            }
+            // Append the last node of current list.
+            builder.append(results.get(i).get(results.get(i).size() -1));
+            returnedResult.add(builder.toString());
+        }
+        return returnedResult;
+    }
+    private void allPath(TreeNode root, List<List<Integer>> results,  List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        result.add(root.val);
+        // If leaf, add to results and remove the node from current list. 
+        if (root.left == null && root.right == null) {
+            results.add(new ArrayList<Integer>(result));
+            result.remove(result.size() -1);
+            return;
+        }
+        allPath(root.left, results, result);
+        //result.remove(result.size() -1);
+        allPath(root.right, results, result);
+        result.remove(result.size() -1);
+    }  
+}
