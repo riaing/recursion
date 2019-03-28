@@ -15,6 +15,12 @@ of the two subtrees of every node never differ by more than 1.
  *     TreeNode(int x) { val = x; }
  * }
  */
+  
+  -------------best solutio: recursion with memorization-----------------------------------------------------------------
+ Still based on DFS. Instead of calling depth() explicitly for each child node, we return the height of the current node in
+ DFS recursion. 
+Time:  each node in the tree only need to be accessed once. Thus the time complexity is O(N), better than the first solution.
+
 public class Solution {
     class TreeInfo{   // helper class ,同时contain判断题目所需的所有infor
         boolean isBalanced; 
@@ -41,34 +47,38 @@ public class Solution {
         // 计算两个返回值 
         
         return  new TreeInfo(height, isBalanced);  
-    }
-    
-    
+    }   
 } 
- 
- // 这种做法要Left, right 分别要recursion 两遍，来求isbalanced和height。 更好的方法是用一个helper(TreeInfo) class，里面存有要recursion的两个field；
- 用一个type为此class的辅助method(helper) 来进行recursion。 在主method call这个辅助method即可。 
-public class Solution {
+
+ -----------------first solution. based on definition approach -------------------------------------------------------------
+ Time: o(n^2) 
+ For the current node root, calling depth() for its left and right children actually has to access all of its children, 
+thus the complexity is O(N). We do this for each node in the tree, so the overall complexity of isBalanced will be O(N^2), because 
+height is n when the tree is skewed. 
+  
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root == null){
+        if (root == null) {
             return true;
-        } 
-       //way 1 
-      /*  int differ = Math.abs(DepthDiffer(root.right)-DepthDiffer(root.left));
-        if(differ > 1) {
-            return false; 
         }
-        return isBalanced(root.left) && isBalanced(root.right); */
+        return isBalanced(root.left) && isBalanced(root.right) && Math.abs(height(root.left) - height(root.right)) <= 1;
         
-        //way 2 
-        诡异的是这里顺序不能错，如果有个很大的imbalance tree，就会stackoverflow
-        return Math.abs(height(root.right)-height(root.left))<=1 && isBalanced(root.left) && isBalanced(root.right);
     }
     
-    private int height(TreeNode p){
-        if(p == null ){
+    private int height(TreeNode node) {
+        if (node == null) {
             return 0;
         }
-        return Math.max(height(p.right), height(p.left))+1; 
+        return 1 + Math.max(height(node.left), height(node.right));
     }
+    
 }
