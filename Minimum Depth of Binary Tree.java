@@ -18,21 +18,36 @@ The minimum depth is the number of nodes along the shortest path from the root n
  * }
  */
  
-public class Solution {
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ -----------------------------recursion------------------------------------------------------------------------------
+class Solution {
     public int minDepth(TreeNode root) {
-        if(root == null ){
-            return 0; 
+        if (root == null) {
+            return 0;
         }
-        if(root.left == null){
-            return minDepth(root.right) +1 ;
+        int leftHeight = minDepth(root.left);
+        int rightHeight = minDepth(root.right);
+         
+        if (leftHeight == 0) {
+            return 1 + rightHeight; 
         }
-        if(root.right == null){
-            return minDepth(root.left) +1 // 基线条件都要return
+        else if (rightHeight == 0) {
+            return 1 + leftHeight;
         }
-        return 1+ Math.min(minDepth(root.left), minDepth(root.right));
+        else {
+            return 1 + Math.min(leftHeight, rightHeight);
+        }
     }
 }
-
+--------------------------------------------------------------------------------------------------------------------
 相似的题像是 find the max value of a binary tree: 
 
 public int maxValueInBinaryTree(TreeNode root) {
@@ -53,7 +68,7 @@ public int maxValueInBinaryTree(TreeNode root) {
 	Return Math.max(root.val , cur);
 }
 				
-非递归解法
+------------------------------------非递归解法------------------------------------------------------------------------
  public int minDepth(TreeNode root) {
  2         if(root == null)
  3             return 0;
