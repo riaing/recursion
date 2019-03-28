@@ -15,37 +15,14 @@ But the following [1,2,2,null,3,null,3] is not:
    \   \
    3    3
 
-//  solution 
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-public class Solution {
-    public boolean isSymmetric(TreeNode root) {
+----------------------------Divide and Conquer----------------------------------------------------------------------------
 
-       return  isSymmetric(root, root); 
-    }
-     public boolean isSymmetric(TreeNode q, TreeNode p){
-         if (q== null && p == null){ // 递归停止的基线条件（base case）
-             return true; 
-         }
-         if (q==null || p == null){
-             return false;
-         }
-         if(q.val!=p.val){ //基线条件不能是q.val == p.val. 这样的话还要往下recursion
-             return false; 
-         }
-         
-         return isSymmetric(q.left, p.right) && isSymmetric(q.right , p.left);
-     } 
-}
-------------------------recursion------------------
-/**
+Two trees are a mirror reflection of each other if:
+Their two roots have the same value.
+The right subtree of each tree is a mirror reflection of the left subtree of the other tree.
+      
+        
+ /**
  * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
@@ -54,29 +31,17 @@ public class Solution {
  *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
+
+class Solution {
     public boolean isSymmetric(TreeNode root) {
-        if(root == null){
-            return true;
-        }
-        return helper(root.left, root.right);
+        return isMirror(root, root);
     }
     
-    private boolean helper(TreeNode left, TreeNode right){
-
-        if(left == null && right != null){
-            return false;
-        }
-        if(left != null && right == null){
-            return false; 
-        }
-        if(left == null && right == null){
-            return true; 
-        }
-        if(left.val != right.val){
-            return false; 
-        }
-        return helper(left.left, right.right) && helper(left.right, right.left); 
-        
-     } 
+    private boolean isMirror(TreeNode t1, TreeNode t2) {
+         if (t1 == null && t2 == null) return true;
+        if (t1 == null || t2 == null) return false;
+        return (t1.val == t2.val)
+        && isMirror(t1.right, t2.left)
+        && isMirror(t1.left, t2.right);
+    }
 }
