@@ -11,7 +11,7 @@ All root-to-leaf paths are:
 
 ["1->2->5", "1->3"]
 
-----------------------                   D&C              ---------------------------------------------------------------------------------------
+----------------------  D&C 1 ---------------------------------------------------------------------------------------
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -59,7 +59,7 @@ List<String> s = new ArrayList<String>();
 		System.out.println(s.get(0)); //abc, for loop只是用list里的string重新创了个string，但list里的string并没有改变
 				    
 				    
------------3.31.19 update D&C写法：和以上思路一样------------------------------------------------------------
+-----------         3.31.19 update D&C 2：和以上思路一样------------------------------------------------------------
 				    
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
@@ -87,7 +87,41 @@ class Solution {
     }
 }
 
---------------------------------- update 解法， 感觉上一种最后加first element的解法太偏了 ------------------------
+---------------------------------3.31.19 update recursion写法--------------------------------------------------------
+				    
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<String>();
+        recursion(root, res, "");
+        return res;
+    }
+    
+    private void recursion(TreeNode root, List<String> res, String path) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            res.add(path + root.val);
+            return;
+        }
+
+        recursion(root.left, res,  path + root.val + "->");
+        recursion(root.right, res,  path + root.val+ "->" );   
+
+ 
+    }
+}				
+
+--------------------------------- 原始解法，不用看了。。。 ------------------------
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
