@@ -11,7 +11,7 @@ All root-to-leaf paths are:
 
 ["1->2->5", "1->3"]
 
-
+----------------------                   D&C              ---------------------------------------------------------------------------------------
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -57,6 +57,35 @@ List<String> s = new ArrayList<String>();
 			System.out.println(i); // 1->abc ， 1->def
 		} 
 		System.out.println(s.get(0)); //abc, for loop只是用list里的string重新创了个string，但list里的string并没有改变
+				    
+				    
+-----------3.31.19 update D&C写法：和以上思路一样------------------------------------------------------------
+				    
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<String>();
+        if (root == null) {
+            return res;
+        }
+        if (root.left == null && root.right == null) {
+            res.add(root.val+"");
+        }
+            
+        //divide 
+        List<String> l = binaryTreePaths(root.left);
+        List<String> r = binaryTreePaths(root.right);
+        
+        
+        // conquer 
+        for (String s : l) {
+            res.add(root.val + "->" + s);
+        }
+        for (String s : r) {
+            res.add(root.val + "->" + s);
+        }
+        return res;
+    }
+}
 
 --------------------------------- update 解法， 感觉上一种最后加first element的解法太偏了 ------------------------
 /**
