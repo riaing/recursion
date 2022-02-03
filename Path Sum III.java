@@ -24,12 +24,69 @@ Return 3. The paths that sum to 8 are:
 2.  5 -> 2 -> 1
 3. -3 -> 11
 
+----------------------- #6 用一个 list 来存到此 node 为止的 path：此方法可 apply 到其他题，记！另外可看#3，也很巧妙 -----------------------
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+/*
+用一个 path 存到 node 的 path 上的所有 node。每层从 node 往上推，找 sum
+对每个 node都要遍历一遍它的 path。最后一层的path 是 lgn（就是 depth），所以算大 O 是 N*lgN
+如果是 unbalance tree，就是1+2+3+4+...+n = n*2
+所以平均 O(NlgN), 最坏 O(N*2)
+
+Space: unbalanced Tree 的话 list 要记所有的 node，所以是 O（n）， recursion stack 也是 O（n）。总共就 o(n)
+*/
+class Solution {
+    public int pathSum(TreeNode root, int targetSum) {
+        int total = 0;
+        if (root == null) {
+            return total;
+        }
+        return helper(root, targetSum, new ArrayList<Integer>());
+    }
+    
+    public int helper(TreeNode root, int targetSum, List<Integer> path) {
+        int total = 0;
+        if (root == null) {
+            return total;
+        }
+        if (root.val == targetSum) {
+            total++;
+        }
+        int sum = targetSum;
+        for (int i = path.size() - 1; i >=0; i--) { 
+            if (root.val + path.get(i) == sum) {
+                total++;
+            }
+            sum -= path.get(i);
+        }
+        path.add(root.val);
+        total = total + helper(root.left, targetSum, path) + helper(root.right, targetSum, path);
+        path.remove(path.size()-1);
+        return total; 
+    }
+}      
+ ------------------------------------------------------------------------------------------     
+一下所有 solution 的时间分析
 Recursion and DFS: 
 Time complexity: O(n^2)
 
 Space complexity: O(n)
       
- -------------- 3.30.19 update: 对于每一个node，找以他为root的path：recursion --------------
+ --------------#5  3.30.19 update: 对于每一个node，找以他为root的path：recursion --------------
       /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -58,7 +115,7 @@ class Solution {
     }
 }
 
---------------3.30.19 update: 对于每一个node，找以他为root的path：iteration. 和以上一样的helper function ------------------
+--------------#4 - 3.30.19 update: 对于每一个node，找以他为root的path：iteration. 和以上一样的helper function ------------------
       /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -101,7 +158,7 @@ class Solution {
         return (node.val == sum ? numPathOfCurrentNode + 1 : numPathOfCurrentNode) + helper(node.left, sum - node.val) + helper(node.right, sum - node.val);
     }
 }
----------------3.30.19 recursion：这里提供了一个不同的思路，我们通过传递一个boolean，来确保是path----------------------------
+---------------#3 - 3.30.19 recursion：这里提供了一个不同的思路，我们通过传递一个boolean，来确保是path----------------------------
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -138,7 +195,7 @@ class Solution {
 }
 
 
----- 之前的解法，就看看吧。。。 SOL1: Pass the return value: using DFS ------
+---- #2 - 之前的解法，就看看吧。。。 SOL1: Pass the return value: using DFS ------
 
 /**
  * Definition for a binary tree node.
@@ -183,7 +240,7 @@ class Solution {
     } 
 }
 
--------- SOL 2: Pass the return value: using recursion ------
+-------- # 1 - SOL 2: Pass the return value: using recursion ------
       /**
  * Definition for a binary tree node.
  * public class TreeNode {
